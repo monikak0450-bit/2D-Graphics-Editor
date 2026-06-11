@@ -100,6 +100,29 @@ void drawCircle(int cx, int cy, int radius) {
         Draw a circle with center (cx, cy)
         and given radius using '*'.
     */
+    int x = radius;
+    int y = 0;
+    int decision = 1 - radius;
+
+    while (x >= y) {
+        setPixel(cx + x, cy + y);
+        setPixel(cx + y, cy + x);
+        setPixel(cx - y, cy + x);
+        setPixel(cx - x, cy + y);
+        setPixel(cx - x, cy - y);
+        setPixel(cx - y, cy - x);
+        setPixel(cx + y, cy - x);
+        setPixel(cx + x, cy - y);
+
+        y++;
+
+        if (decision <= 0) {
+            decision += 2 * y + 1;
+        } else {
+            x--;
+            decision += 2 * (y - x) + 1;
+        }
+    }
 }
 
 void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -107,6 +130,9 @@ void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
         TODO:
         Draw a triangle by joining the three given points.
     */
+    drawLine(x1, y1, x2, y2);
+    drawLine(x2, y2, x3, y3);
+    drawLine(x3, y3, x1, y1);
 }
 
 int main() {
