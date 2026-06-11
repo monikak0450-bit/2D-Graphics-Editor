@@ -14,6 +14,11 @@ void clearPicture() {
         TODO:
         Fill the entire 2D array picture with EMPTY character '_'.
     */
+    for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            picture[y][x] = EMPTY;
+        }
+    }
 }
 
 void displayPicture() {
@@ -21,6 +26,12 @@ void displayPicture() {
         TODO:
         Print the 2D picture array row by row.
     */
+    for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            printf("%c", picture[y][x]);
+        }
+        printf("\n");
+    }
 }
 
 void setPixel(int x, int y) {
@@ -29,6 +40,10 @@ void setPixel(int x, int y) {
         If x and y are inside the canvas,
         set picture[y][x] to PIXEL character '*'.
     */
+    if (x >= 0 && x < WIDTH &&
+        y >= 0 && y < HEIGHT) {
+        picture[y][x] = PIXEL;
+    }
 }
 
 void drawLine(int x1, int y1, int x2, int y2) {
