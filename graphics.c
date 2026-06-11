@@ -8,6 +8,14 @@
 #define PIXEL '*'
 
 char picture[HEIGHT][WIDTH];
+typedef struct {
+    int type;
+    int data[6];
+    int active;
+} Shape;
+
+Shape shapes[100];
+int shapeCount = 0;
 
 void clearPicture() {
     /*
@@ -134,7 +142,27 @@ void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3) {
     drawLine(x2, y2, x3, y3);
     drawLine(x3, y3, x1, y1);
 }
+void listShapes();
+void deleteShape(int id);
 
+void listShapes()
+{
+    for(int i = 0; i < shapeCount; i++)
+    {
+        if(shapes[i].active)
+        {
+            printf("ID %d Type %d\n", i, shapes[i].type);
+        }
+    }
+}
+
+void deleteShape(int id)
+{
+    if(id >= 0 && id < shapeCount)
+    {
+        shapes[id].active = 0;
+    }
+}
 int main() {
     int choice;
 
@@ -153,6 +181,9 @@ int main() {
         printf("3. Draw Circle\n");
         printf("4. Draw Triangle\n");
         printf("5. Display Picture\n");
+        printf("6. List Objects\n");
+        printf("7. Delete Object\n");
+        printf("8. Modify Object\n");
         printf("0. Exit\n");
         printf("Enter choice: ");
 
@@ -165,6 +196,16 @@ int main() {
             scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
 
             drawLine(x1, y1, x2, y2);
+            shapes[shapeCount].type = 1;
+
+shapes[shapeCount].data[0] = x1;
+shapes[shapeCount].data[1] = y1;
+shapes[shapeCount].data[2] = x2;
+shapes[shapeCount].data[3] = y2;
+
+shapes[shapeCount].active = 1;
+
+shapeCount++;
         }
         else if (choice == 2) {
             int x1, y1, x2, y2;
@@ -173,6 +214,16 @@ int main() {
             scanf("%d %d %d %d", &x1, &y1, &x2, &y2);
 
             drawRectangle(x1, y1, x2, y2);
+            shapes[shapeCount].type = 2;
+
+            shapes[shapeCount].data[0] = x1;
+            shapes[shapeCount].data[1] = y1;
+            shapes[shapeCount].data[2] = x2;
+            shapes[shapeCount].data[3] = y2;
+
+            shapes[shapeCount].active = 1;
+
+            shapeCount++;
         }
         else if (choice == 3) {
             int cx, cy, radius;
@@ -181,6 +232,15 @@ int main() {
             scanf("%d %d %d", &cx, &cy, &radius);
 
             drawCircle(cx, cy, radius);
+            shapes[shapeCount].type = 3;
+
+            shapes[shapeCount].data[0] = cx;
+            shapes[shapeCount].data[1] = cy;
+            shapes[shapeCount].data[2] = radius;
+
+            shapes[shapeCount].active = 1;
+
+            shapeCount++;
         }
         else if (choice == 4) {
             int x1, y1, x2, y2, x3, y3;
@@ -190,11 +250,54 @@ int main() {
                   &x1, &y1, &x2, &y2, &x3, &y3);
 
             drawTriangle(x1, y1, x2, y2, x3, y3);
+            shapes[shapeCount].type = 4;
+
+shapes[shapeCount].data[0] = x1;
+shapes[shapeCount].data[1] = y1;
+shapes[shapeCount].data[2] = x2;
+shapes[shapeCount].data[3] = y2;
+shapes[shapeCount].data[4] = x3;
+shapes[shapeCount].data[5] = y3;
+
+shapes[shapeCount].active = 1;
+
+shapeCount++;
         }
         else if (choice == 5) {
             printf("The picture is:\n");
             displayPicture();
         }
+        else if (choice == 6) {
+            listShapes();
+        }
+else if (choice == 7) {
+    int id;
+
+    printf("Enter object ID to delete: ");
+    scanf("%d", &id);
+
+    deleteShape(id);
+}
+else if (choice == 8) {
+    int id;
+
+    printf("Enter object ID: ");
+    scanf("%d", &id);
+
+    if(id >= 0 && id < shapeCount && shapes[id].active)
+    {
+        if(shapes[id].type == 2)   // rectangle
+        {
+            printf("Enter new x1 y1 x2 y2: ");
+
+            scanf("%d %d %d %d",
+                  &shapes[id].data[0],
+                  &shapes[id].data[1],
+                  &shapes[id].data[2],
+                  &shapes[id].data[3]);
+        }
+    }
+}
         else if (choice == 0) {
             printf("Exiting program.\n");
             break;
